@@ -2,7 +2,6 @@
 -- vimtex keymaps (optional helpers)
 -----------------------------------------------------------
 -- <leader>ll : start compilation
--- <leader>ll : start compilation
 -- <leader>lv : open viewer
 -- <leader>lk : stop compilation
 -- <leader>lc : clean aux files
@@ -59,7 +58,7 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 vim.opt.rtp:prepend(lazypath)
---vim.cmd.colorscheme("default") -- lazy setzt sonst manchmal eins, das will ich nicht
+vim.cmd.colorscheme("default") -- lazy setzt sonst manchmal eins, das will ich nicht
 
 
 -----------------------------------------------------------
@@ -86,7 +85,8 @@ require("lazy").setup({
             -- Required for vimtex to work properly
             vim.g.tex_flavor = "latex"
             -- Use Skim as PDF viewer
-            vim.g.vimtex_view_method = "skim"
+            --vim.g.vimtex_view_method = "skim"
+            vim.g.vimtex_view_method = "general"
             vim.g.vimtex_view_skim_sync = 1
             vim.g.vimtex_view_skim_activate = 1
             -- Latexmk options
@@ -176,6 +176,7 @@ require("lazy").setup({
                     "lua_ls",       -- Lua
                     "pyright",      -- Python
                     "ltex",
+                    "gopls",
                 },
                 automatic_installation = true,
             })
@@ -229,19 +230,40 @@ require("lazy").setup({
 
     -- color scheme :) 
     {
-        "KijitoraFinch/nanode.nvim",
+        "ellisonleao/gruvbox.nvim",
         priority = 1000,
         config = function ()
-            require("nanode").setup({
-                transparent = false
+            require("gruvbox").setup({
+                transparent = true,
+                italic = {
+                    strings = false,
+                    emphasis = false,
+                    comments = false,
+                    operators = false,
+                    folds = false,
+                }
             })
-            vim.cmd.colorscheme = "nanode"
+            --vim.cmd.colorscheme("gruvbox")
         end
+    },
+
+    -- or maybe some other colors?
+    {
+        "lucasadelino/conifer.nvim",
+        priority = 1000,
+        lazy = false,
+        config = function ()
+            require("conifer").setup({
+                transparent = true,
+            })
+        end,
     },
 
     -- automatisch nach updates schauen (trever modus)
     checker = { enabled = true },
 })
+
+vim.cmd.colorscheme("conifer")
 
 
 -----------------------------------------------------------
@@ -251,7 +273,6 @@ require("lazy").setup({
 vim.keymap.set("n", "<leader>la", ":Lazy<CR>")
 vim.keymap.set("n", "<leader>ll", "<cmd>VimtexCompile<CR>", { desc = "Compile LaTeX" })
 vim.keymap.set("n", "<leader>lv", "<cmd>VimtexView<CR>", { desc = "View PDF" })
-
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show diagnostic popup" })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
 
