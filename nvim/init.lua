@@ -133,17 +133,17 @@ require("lazy").setup({
             vim.keymap.set("n", "<leader>sd", function()
                 require("telescope.builtin").diagnostics({ bufnr = 0 })
             end, { desc = "[s]how [d]iagnostics" })
-            vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[s]earch [H]elp" })
-            vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[s]earch [K]eymaps" })
-            vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[s]earch [F]iles" })
-            vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[s]earch by [G]rep" })
-            vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
+            vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[s]earch [h]elp" })
+            vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[s]earch [k]eymaps" })
+            vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[s]earch [f]iles" })
+            vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[s]earch by [g]rep" })
+            vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] find existing buffers" })
             vim.keymap.set("n", "<leader>/", function()
                 builtin.live_grep({
                     grep_open_files = true,
-                    prompt_title = "Live Grep in Open Files",
+                    prompt_title = "live grep in open files",
                 })
-            end, { desc = "[S]earch [/] in Open Files" })
+            end, { desc = "[s]earch [/] in open files" })
         end,
     },
 
@@ -172,9 +172,9 @@ require("lazy").setup({
             local mason_lspconfig = require("mason-lspconfig")
             mason_lspconfig.setup({
                 ensure_installed = {
-                    "texlab",       -- LaTeX
-                    "lua_ls",       -- Lua
-                    "pyright",      -- Python
+                    "texlab",
+                    "lua_ls",
+                    "pyright",
                     "ltex",
                     "gopls",
                 },
@@ -243,7 +243,6 @@ require("lazy").setup({
                     folds = false,
                 }
             })
-            --vim.cmd.colorscheme("gruvbox")
         end
     },
 
@@ -259,10 +258,27 @@ require("lazy").setup({
         end,
     },
 
+    -- macht irgendwie highlighting besser oder so?
+    {
+        'nvim-treesitter/nvim-treesitter',
+        build = ':TSUpdate',
+        opts = {
+            ensure_installed = { "lua", "latex", "go" },
+            auto_install = true,
+            highlight = {
+                enable = true,
+            },
+            indent = {
+                enable = true,
+            },
+        },
+    },
+
     -- automatisch nach updates schauen (trever modus)
     checker = { enabled = true },
 })
 
+--vim.cmd.colorscheme("gruvbox")
 vim.cmd.colorscheme("conifer")
 
 
@@ -271,10 +287,12 @@ vim.cmd.colorscheme("conifer")
 -----------------------------------------------------------
 
 vim.keymap.set("n", "<leader>la", ":Lazy<CR>")
+vim.keymap.set("n", "<leader>ma", ":Mason<CR>")
 vim.keymap.set("n", "<leader>ll", "<cmd>VimtexCompile<CR>", { desc = "Compile LaTeX" })
 vim.keymap.set("n", "<leader>lv", "<cmd>VimtexView<CR>", { desc = "View PDF" })
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show diagnostic popup" })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 
 -----------------------------------------------------------
